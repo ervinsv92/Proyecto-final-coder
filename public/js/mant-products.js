@@ -147,7 +147,7 @@ const getProducts = async()=>{
 const getProductById = async (id)=>{
     try {
         const product = await ajax(`products/${id}`);
-        _idProduct = product.id;
+        _idProduct = product.id || product._id;
         txtName.value = product.name;
         txtDescription.value = product.description;
         txtCode.value = product.code;
@@ -166,7 +166,7 @@ const renderProducts = (products)=>{
 
     products.forEach(product => {
         items += `
-        <tr class='cursor productToEdit' data-id='${product.id}'>
+        <tr class='cursor productToEdit' data-id='${product.id || product._id}'>
             <td>${product.code}</td> 
             <td>${product.name}</td> 
             <td>${product.price}</td> 

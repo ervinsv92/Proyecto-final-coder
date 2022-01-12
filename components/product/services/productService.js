@@ -1,62 +1,39 @@
-const {uuid} = require('uuidv4');
 const {config} = require("../../../config");
-const FileHelper = require("../../../utils/file/FileHelper");
+const FileContainerProducts = require("../../../utils/containers/fileContainerProducts");
+const MongoDBContainerProducts = require("../../../utils/containers/mongoDBContainerProducts");
 
 class ProductService{
     constructor(){
-        this.fileHelper = new FileHelper(config.fileProducts);
+        switch(config.dataConnection){
+            case 'FILE':
+                this.dataConnection = new FileContainerProducts();
+                break;
+            case 'MONGO':
+                this.dataConnection = new MongoDBContainerProducts();
+                break;
+            case 'FIREBASE':
+                break;
+        }
     }
 
     async save(product){
-        const list = await this.fileHelper.getAll() || [];
-        product.id = uuid();
-        product.timestamp = Date.now();
-        list.push(product)
-        await this.fileHelper.saveFile(list);
-        return product;
+        return this.dataConnection.save(product);
     }
 
     async getAll(){
-        const list = await this.fileHelper.getAll() || [];
-        return list;
+        return this.dataConnection.getAll();
     }
 
     async getById(id){
-        const list = await this.fileHelper.getAll() || [];
-        const product = list.find(x=>x.id == id) || null;
-        console.log("pro: ", product)
-        if(product == null){
-            throw new Error(`El producto con el id: ${id}, no se encuentra.`);
-        }
-
-        return product;
+        return this.dataConnection.getById(id);
     }
 
     async update(product){
-        const list = await this.fileHelper.getAll() || [];
-        const idx = list.findIndex(x=>x.id == product.id);
-
-        if(idx == -1){
-            throw new Error(`El producto con el id: ${product.id} no se encuentra.`);
-        }
-
-        list[idx] = product;
-        await this.fileHelper.saveFile(list);
-        return product;
+        return this.dataConnection.update(product);
     }
 
     async delete(id){
-        let list = await this.fileHelper.getAll() || [];
-        const idx = list.findIndex(x=>x.id == id);
-
-        if(idx == -1){
-            throw new Error(`El producto con el id: ${id} no se encuentra.`);
-        }
-
-        const eliminate = list[idx];
-        list = list.filter(x => x.id != id);
-        await this.fileHelper.saveFile(list);
-        return eliminate;
+        return this.dataConnection.delete(id);
     }
 }
 

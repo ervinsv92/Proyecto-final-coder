@@ -178,7 +178,7 @@ const renderProducts = (products)=>{
                   <p class="card-text">Precio: ${product.price}</p>
                 </div>
                 <div class="card-footer">
-                  <a href='#' data-id='${product.id}' class='dbtnAddToCart'>Añadir al carrito</a>
+                  <a href='#' data-id='${product.id || product._id}' class='dbtnAddToCart'>Añadir al carrito</a>
                 </div>
               </div>
             </div>
@@ -199,7 +199,7 @@ const renderCartProducts = (products)=>{
             <td>${product.name}</td> 
             <td>${product.price}</td> 
             <td><img src='${product.image}' class='image'/></td> 
-            <td><button type='button' class='btn btn-danger dbtnDeleteProductOfCart' data-id='${product.id}'>X</button></td>
+            <td><button type='button' class='btn btn-danger dbtnDeleteProductOfCart' data-id='${product.id || product._id}'>X</button></td>
         </tr>
         `;
 
