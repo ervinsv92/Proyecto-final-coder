@@ -10,7 +10,6 @@ let image= Joi.string().min(3);
 //let id= Joi.string().min(3);
 
 const productsSchema = {
-    id:id,
     name:name.required(),
     code: code.required(),
     description: description.required(),
