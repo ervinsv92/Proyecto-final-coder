@@ -1,5 +1,6 @@
 const {config} = require("../../../config");
 const FileContainerProducts = require("../../../utils/containers/fileContainerProducts");
+const FirebaseContainerProduct = require("../../../utils/containers/firebaseContainerProduct");
 const MongoDBContainerProducts = require("../../../utils/containers/mongoDBContainerProducts");
 
 class ProductService{
@@ -12,6 +13,7 @@ class ProductService{
                 this.dataConnection = new MongoDBContainerProducts();
                 break;
             case 'FIREBASE':
+                this.dataConnection = new FirebaseContainerProduct();
                 break;
         }
     }
