@@ -5,6 +5,7 @@ const config = {
     dataConnection:process.env.DATA_CONNECTION || 'FILE',
     fileProducts:process.env.FILE_PRODUCTS || 'products.txt',
     fileCart:process.env.FILE_CART || 'cart.txt',
+    jwtKey:process.env.JWT_KEY || 'sd2f1s2df12sd1f21',
 }
 
 const configMongoDB ={

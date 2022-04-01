@@ -7,7 +7,6 @@ class MongoDBContainerProducts{
 
     async save(product){
         let productSaved = await Products.create(product);
-        console.log("guardado mongoose: ", productSaved);
         return productSaved;
     }
 

@@ -26,7 +26,6 @@ class MongoDBContainerCart{
         const cart = await Cart.findOne({_id:idCart});
         const product = await Products.findOne({_id:idProduct});
         
-        console.log("agregar producto: ", product)
         if(cart === null){
             throw new Error(`El cart con el id: ${idCart} no se encuentra.`);
         }else if(product === null){
