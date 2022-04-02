@@ -15,7 +15,8 @@ class CartController{
 
     async createCart(req, res, next){
         try {
-            let idCart = await cartService.createCart();    
+            const {idUser} = req.body;
+            let idCart = await cartService.createCart(idUser);    
             res.json(idCart)
         } catch (error) {
             console.error(error)   

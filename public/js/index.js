@@ -7,8 +7,21 @@ const tableCart = document.getElementById("tableCart");
 const tableCartBody = document.querySelector("#tableCart tbody");
 const btnDeleteCart = document.getElementById("btnDeleteCart");
 const btnCloseModalCart = document.getElementById("btnCloseModalCart");
+const lblUsuario = document.getElementById("lblUsuario");
+const btnLogout = document.getElementById("btnLogout");
+
+let _user = null;
 
 window.onload = function() {
+
+    let token = localStorage.getItem(tokenSession) || '';
+    if(token){
+        //Falta validar el token contra el api
+        _user = JSON.parse(atob(token.split('.')[1]));
+        lblUsuario.textContent = _user.email;
+    }else{
+        window.location = 'login.html';
+    }
     showAdmin();
     getProducts();
 };
@@ -101,7 +114,7 @@ document.body.addEventListener( 'click', async function ( event ) {
             const idProduct = event.target.dataset.id;      
             const idCart = localStorage.getItem(cartSession) || null;
             if(idCart == null){
-                const newIdCart = await ajax('cart', {}, 'POST');
+                const newIdCart = await ajax('cart', {idUser:_user.id}, 'POST');
                 if(newIdCart){
                     localStorage.setItem(cartSession, newIdCart);
                     const cartProduct = await ajax(`cart/${newIdCart}/products`, {
@@ -206,3 +219,8 @@ const renderCartProducts = (products)=>{
         tableCartBody.innerHTML = items;
     });
 }
+
+btnLogout.addEventListener('click', function(){
+    localStorage.removeItem(tokenSession);
+    window.location = 'login.html';
+});

@@ -6,6 +6,9 @@ const config = {
     fileProducts:process.env.FILE_PRODUCTS || 'products.txt',
     fileCart:process.env.FILE_CART || 'cart.txt',
     jwtKey:process.env.JWT_KEY || 'sd2f1s2df12sd1f21',
+    userEmail:process.env.USER_EMAIL,
+    passEmail:process.env.PASS_EMAIL,
+    adminEmail:process.env.ADMIN_EMAIL
 }
 
 const configMongoDB ={

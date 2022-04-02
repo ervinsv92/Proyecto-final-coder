@@ -17,11 +17,13 @@ btnRegister.addEventListener("click", async (e)=>{
         phoneNumber:txtPhoneNumber.value,
         urlAvatar:txtUrlAvatar.value
     };
-console.log("user post: ", user)
+//console.log("user post: ", user)
     try {
         const saved = await ajax('users/register', user, 'POST');
         if(saved){
             console.log("registrado: ", saved);
+            localStorage.setItem(tokenSession, saved.token);
+            window.location = 'index.html';
             //limpiarForm();
             //alert("Producto creado.")
             //getProducts();

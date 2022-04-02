@@ -3,6 +3,8 @@ const UsersService = require("../services/userService");
 const usersService = new UsersService();
 const jwt = require('../../../utils/jwt/jwt');
 const {isValidPassword, createHash} = require('../../../utils/bcrypt');
+const sendEmail = require('../../../utils/nodemailer');
+const config = require('../../../config');
 
 class UsersController{
     async getById(req, res, next){
@@ -34,9 +36,19 @@ class UsersController{
             }else if(urlAvatar == undefined || urlAvatar == ''){
                 return res.status(400).json({error:-4, description:'El payload urlAvatar es requerido y no puede estar vacio.'});
             }
-
+            const hashPassword = createHash(password);
+            req.body.password = hashPassword;
             let user = await usersService.save(req.body);   
             
+            let bodyEmail = `<p><strong>Correo:</strong>${user.email}</p>
+                <p><strong>Nombre Usuario:</strong>${user.user}</p>
+                <p><strong>Dirección:</strong>${user.address}</p>
+                <p><strong>Edad:</strong>${user.age}</p>
+                <p><strong>Teléfono:</strong>${user.phoneNumber}</p>
+            `;
+
+            sendEmail(config.config.adminEmail,'Nuevo Registro', bodyEmail);
+
             const token = jwt.createToken(user);
             res.json({status:true, token});
         } catch (error) {
@@ -48,8 +60,7 @@ class UsersController{
     async login(req, res, next){
         try {
             const {email, password} = req.body;
-            let user = usersService.getByEmail(email);
-
+            let user = await usersService.getByEmail(email);
             if (user){
     
                 if(!isValidPassword(user, password)){
@@ -58,7 +69,6 @@ class UsersController{
                 }
                 
                 const token = jwt.createToken(user);
-
                 res.json({status:true, token});
             }else{
                 console.log("No se encuentra el usuario")
