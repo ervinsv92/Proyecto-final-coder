@@ -22,6 +22,14 @@ class CartService{
         return this.dataConnection.createCart(idUser);
     }
 
+    async getCartById(id){
+        return this.dataConnection.getCartById(id);
+    }
+
+    async getCartIdByIdUser(id_user){
+        return this.dataConnection.getCartIdByIdUser(id_user);
+    }
+
     async getProductsCartById(id){
         return this.dataConnection.getProductsCartById(id);
     }

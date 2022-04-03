@@ -8,7 +8,12 @@ const config = {
     jwtKey:process.env.JWT_KEY || 'sd2f1s2df12sd1f21',
     userEmail:process.env.USER_EMAIL,
     passEmail:process.env.PASS_EMAIL,
-    adminEmail:process.env.ADMIN_EMAIL
+    adminEmail:process.env.ADMIN_EMAIL,
+    sidTwilio:process.env.SID_TWILIO,
+    tokenTwilio:process.env.TOKEN_TWILIO,
+    numberTwilio:process.env.NUMBER_TWILIO,
+    numberTwilioWhatsapp:process.env.NUMBER_WHATSAPP_TWILIO,
+    adminNumber:process.env.ADMIN_NUMBER
 }
 
 const configMongoDB ={

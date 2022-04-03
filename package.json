@@ -24,6 +24,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.6",
     "nodemailer": "^6.7.3",
+    "twilio": "^3.76.0",
     "uuidv4": "^6.2.12"
   }
 }

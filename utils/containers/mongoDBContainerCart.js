@@ -15,6 +15,22 @@ class MongoDBContainerCart{
         return cartCreated._id;
     }
 
+    async getCartById(id){
+        const cart = await Cart.findOne({_id:id});
+        if(cart === null){
+            throw new Error(`El cart con el id: ${id}, no se encuentra.`);
+        }
+        return cart;
+    }
+
+    async getCartIdByIdUser(id_User){
+        const cart = await Cart.findOne({idUser:id_User});
+        if(cart === null){
+            throw new Error(`El cart con el id_user: ${id_User}, no se encuentra.`);
+        }
+        return cart._id;
+    }
+
     async getProductsCartById(id){
         const cart = await Cart.findOne({_id:id});
         if(cart === null){

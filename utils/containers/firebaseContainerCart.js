@@ -27,6 +27,18 @@ class FirebaseContainerCart{
         return id;
     }
 
+    async getCartById(id){      
+        let doc = await this.queryCart.doc(id);
+        let docTemp = await doc.get();
+        let cart = await docTemp.data();
+        
+        if(cart === null){
+            throw new Error(`El cart con el id: ${id}, no se encuentra.`);
+        }    
+      
+        return cart;
+    }
+
     async getProductsCartById(id){      
         let doc = await this.queryCart.doc(id);
         let docTemp = await doc.get();

@@ -9,15 +9,24 @@ const btnDeleteCart = document.getElementById("btnDeleteCart");
 const btnCloseModalCart = document.getElementById("btnCloseModalCart");
 const lblUsuario = document.getElementById("lblUsuario");
 const btnLogout = document.getElementById("btnLogout");
+const btnCreateOrder = document.getElementById("btnCreateOrder");
 
 let _user = null;
 
-window.onload = function() {
-
+window.onload = async function() {
     let token = localStorage.getItem(tokenSession) || '';
     if(token){
         //Falta validar el token contra el api
         _user = JSON.parse(atob(token.split('.')[1]));
+
+        const res = await ajax(`cart/${_user.id}/user`);
+
+        if(!res?.error){
+            localStorage.setItem(cartSession, res)
+        }else{
+            localStorage.setItem(cartSession, '');
+        }
+        
         lblUsuario.textContent = _user.email;
     }else{
         window.location = 'login.html';
@@ -222,5 +231,27 @@ const renderCartProducts = (products)=>{
 
 btnLogout.addEventListener('click', function(){
     localStorage.removeItem(tokenSession);
+    localStorage.removeItem(cartSession);
     window.location = 'login.html';
+});
+
+btnCreateOrder.addEventListener('click', async function(){
+    try {
+        const idCart = localStorage.getItem(cartSession) || "";
+        
+        let productsCart = [];
+        if(idCart !== ""){
+            productsCart = await ajax(`cart/${idCart}/products`);
+        }
+        
+        if(productsCart.length ===0){
+            alert("Debe existir al menos un producto para crear la orden.");
+            return;
+        }else{
+            const res = await ajax(`cart/${idCart}/create-order`,{},'POST');
+            alert(res.message);
+        }
+    } catch (error) {   
+        console.error(error);
+    }
 });
